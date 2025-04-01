@@ -11,7 +11,7 @@ with open('admission_model.pkl', 'rb') as f:
 st.markdown("""
     <style>
     .main {
-        background-color: #ffffff;
+        background-color: #00000;
         padding: 20px;
         border-radius: 10px;
     }
@@ -104,6 +104,18 @@ if st.button('Predict'):
                 prediction = model.predict(data)
                 prediction_clamped = max(0, min(prediction[0], 1))
                 st.markdown(f"<div class='result'>Chances of Admission: {prediction_clamped*100:.2f}%</div>", unsafe_allow_html=True)
+
+                # Predict university based on chances
+                if prediction_clamped > 80:
+                    university = "MIT, Stanford, Harvard"
+                elif prediction_clamped > 60:
+                    university = "UC Berkeley, UCLA, Michigan"
+                elif prediction_clamped > 40:
+                    university = "Texas A&M, Ohio State, Purdue"
+                else:
+                    university = "Arizona State, SUNY Buffalo, UIC"
+
+                st.markdown(f"**Suggested University Category: {university}**")
     except ValueError:
         st.write("Please enter valid numerical values for all fields.")
 
