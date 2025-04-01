@@ -45,7 +45,7 @@ st.markdown("""
         font-size: 24px;
         color: #4CAF50;
         font-weight: bold;
-        text-align: center;
+        text-align: left;
         margin-top: 20px;
     }
     .title {
@@ -56,6 +56,16 @@ st.markdown("""
         padding: 10px;
         border-radius: 10px;
         background-color: #4CAF50;
+    }
+    .uni-box {
+        background-color: #f0f2f6;
+        padding: 10px;
+            color: #000;
+        margin: 10px 0;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 16px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -107,15 +117,20 @@ if st.button('Predict'):
 
                 # Predict university based on chances
                 if prediction_clamped > 80:
-                    university = "MIT, Stanford, Harvard"
+                    universities = ["MIT", "Stanford", "Harvard"]
                 elif prediction_clamped > 60:
-                    university = "UC Berkeley, UCLA, Michigan"
+                    universities = ["UC Berkeley", "UCLA", "Michigan"]
                 elif prediction_clamped > 40:
-                    university = "Texas A&M, Ohio State, Purdue"
+                    universities = ["Texas A&M", "Ohio State", "Purdue"]
                 else:
-                    university = "Arizona State, SUNY Buffalo, UIC"
+                    universities = ["Arizona State", "SUNY Buffalo", "UIC"]
 
-                st.markdown(f"**Suggested University Category: {university}**")
+                st.markdown("### **Suggested Universities:**")
+                for uni in universities:
+                    st.markdown(f"<div class='uni-box'>{uni}</div>", unsafe_allow_html=True)
+                    
+                if len(universities) <= 0:
+                    st.markdown(f"<div class='uni-box'>Not available</div>", unsafe_allow_html=True)
     except ValueError:
         st.write("Please enter valid numerical values for all fields.")
 
